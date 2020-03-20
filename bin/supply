@@ -9,6 +9,8 @@ DEPS_IDX="${4}"
 
 # dependencies paths
 BUILDPACK_DIR=$(dirname $(readlink -f ${BASH_SOURCE%/*}))
+LIBRARY_PATH=${LIBRARY_PATH:-}
+LD_LIBRARY_PATH=${LD_LIBRARY_PATH:-}
 
 for i in $DEPS_DIR/*
 do
