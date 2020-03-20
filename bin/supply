@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -euo pipefail
+# https://docs.cloudfoundry.org/buildpacks/understand-buildpacks.html
+
+BUILD_DIR="${1}"
+CACHE_DIR="${2}"
+DEPS_DIR="${3}"
+DEPS_IDX="${4}"
+
+# dependencies paths
+BUILDPACK_DIR=$(dirname $(readlink -f ${BASH_SOURCE%/*}))
+
+echo "-----> Installing Python-pip requirements"
+if [ -r "$BUILD_DIR/requirements.txt" ]
+then
+	pip3 install --no-cache-dir -r "$BUILD_DIR/requirements.txt"
+fi
+
+echo "-----> Installing R requirements"
+if [ -r "$BUILD_DIR/r-requirements.txt" ]
+then
+	install2.r --error -r 'http://cran.rstudio.com' $(grep -v '^#' "$BUILD_DIR/r-requirements.txt")
+fi
+
+exit
